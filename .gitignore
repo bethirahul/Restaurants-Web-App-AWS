@@ -1,2 +1,12 @@
 # Secrets like app keys, app ids, app secrets, usernames, passwords
 *secrets.json
+
+# Python cache folder
+*/__pycache__/
+__pycache__/
+
+# Visual Studio Code folder
+.vscode/
+
+# temp files
+temp.json
