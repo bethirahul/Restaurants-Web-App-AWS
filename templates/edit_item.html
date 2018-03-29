@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+  <head>
+    <link
+      rel=stylesheet
+      type=text/css
+      href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <title>Edit Item</title>
+  <body>
+    <main>
+      <h3>Edit '{{item.name}}' in restaurant '{{res.name}}'</h3>
+      <br>
+      <a href="{{url_for('resPg', res_id = res.id)}}">Go back</a><br>
+      <br>
+      <br>
+      <p>
+        <b>Present Name, Price and Description:</b><br>
+        <br>
+        {{item.name}}<br>
+        {{item.price}}<br>
+        {{item.course}}<br>
+        {{item.description}}<br>
+        <br>
+        <br>
+        <b>Please update with new values below:</b><br>
+        <br>
+      </p>
+      <form method="POST">
+        <p>Name:</p>
+        <input
+          type="text"
+          placeholder="Item name"
+          name="item_name"
+          value="{{item.name}}"><br>
+        <br>
+        <p>Price: $</p>
+        <input
+          type="text"
+          placeholder="Item price"
+          name="item_price"
+          value="{{item.price}}"><br>
+        <br>
+        <p>Course:</p>
+        <input
+          type="text"
+          placeholder="Item course"
+          name="item_course"
+          value="{{item.course}}"><br>
+        <br>
+        <p>Description:</p>
+        <textarea
+          placeholder="Item Description"
+          name="item_desc">{{item.description}}</textarea><br>
+        <br>
+        <button type="submit">Update</button>
+      </form>
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+      <p>{{message}}</p>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+    </main>
+  </body>
+</html>

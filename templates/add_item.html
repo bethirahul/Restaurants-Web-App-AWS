@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+  <head>
+    <link
+      rel=stylesheet
+      type=text/css
+      href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <title>Add Item</title>
+  <body>
+    <main>
+      <h3>Add a new Item in Restaurant '{{res.name}}'</h3>
+      <br>
+      <a href="{{url_for('resPg', res_id = res.id)}}">Go back</a><br>
+      <br>
+      <form method="POST">
+        <p>Name:</p>
+        <input
+          type="text"
+          placeholder="Item name"
+          name="item_name"><br>
+        <br>
+        <p>Price: $</p>
+        <input
+          type="text"
+          placeholder="Item price"
+          name="item_price"><br>
+        <br>
+        <p>Course:</p>
+        <input
+          type="text"
+          placeholder="Item course"
+          name="item_course"><br>
+        <br>
+        <p>Description:</p>
+        <textarea
+          placeholder="Item Description"
+          name="item_desc"></textarea><br>
+        <br>
+        <button type="submit">Add</button>
+      </form>
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+      <p>{{message}}</p>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+    </main>
+  </body>
+</html>

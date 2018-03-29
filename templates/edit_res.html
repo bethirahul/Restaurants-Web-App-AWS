@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+  <head>
+    <link
+      rel=stylesheet
+      type=text/css
+      href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <title>Edit Restaurant</title>
+  <body>
+    <main>
+      <h3>Edit restaurant '{{res_name}}'</h3>
+      <br>
+      <a href="{{url_for('allResPg')}}">Go back</a><br>
+      <br>
+      <form method="POST">
+        <input
+          type="text"
+          placeholder="Restaurant name"
+          name="res_name"
+          value="{{res_name}}">
+        <button type="submit">Update</button>
+      </form>
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+      <br>
+      <p>{{message}}</p>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+    </main>
+  </body>
+</html>

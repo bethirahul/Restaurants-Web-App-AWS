@@ -1,0 +1,90 @@
+body {
+    font-family: Calibri, Helvetica, sans-serif;
+    background-color: #505050;
+    /*border: 1px solid #dd0000;*/
+    display: grid;
+    grid-template-columns: auto minmax(auto, 225mm) auto;
+}
+
+h1, h3, h5, p, a, div, section, article, nav, footer, textarea {
+    margin: 0;
+    /*border: 1px solid #003cff;*/
+}
+
+h1 {
+    border-bottom: 0.4mm solid rgb(125, 125, 125);
+    color: rgb(36, 36, 36);
+    font-size: 1.75em
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+p {
+    color: rgb(36, 36, 36);
+}
+
+a {
+    text-decoration: none;
+    color: #ff4800;
+}
+
+input {
+    font-family: Calibri, Helvetica, sans-serif;
+    font-size: 1em;
+    width: 100%;
+    max-width: 65mm;
+    min-width: 20mm;
+}
+
+textarea {
+    font-family: Calibri, Helvetica, sans-serif;
+    font-size: 1em;
+    width: 100%;
+    max-width: 120mm;
+    min-width: 20mm;
+    height: 20mm;
+    min-height: 10mm;
+}
+
+main {
+    grid-column: 2/3;
+    background-color: #eeeeee;
+    /*border: 1px solid #51b400;*/
+    padding: 5mm;
+}
+
+.mid-align {
+    text-align: center;
+}
+
+/* All restaurants page */
+.two-columns-layout {
+    display: grid;
+    grid-template-columns: minmax(min-content, max-content) minmax(50mm, auto);
+}
+
+.first-column {
+    grid-column: 1/2;
+    padding-right: 5mm;
+    border-right: 0.4mm solid rgb(200, 200, 200);
+}
+
+.second-column {
+    grid-column: 2/3;
+    padding-left: 5mm;
+}
+
+.edit-link {
+    color: #0055c4;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+footer {
+    border-top: 0.4mm solid rgb(150, 150, 150);
+    margin-top: 5mm;
+}
