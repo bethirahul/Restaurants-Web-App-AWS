@@ -53,7 +53,7 @@
                   $.ajax( // JSON code
                       {
                           type: 'POST', // response method POST
-                          url: '/gconnect?state={{STATE}}', // our server variable
+                          url: '{{root_path}}gconnect?state={{STATE}}', // our server variable
                           // ^^It is used to very the
                           // cross-site reference forgery attack
                           // False - Ask JQuery not to process the response
@@ -170,7 +170,7 @@
                         $.ajax( // JSON code
                             {
                                 type: 'POST', // response method POST
-                                url: '/fbconnect?state={{STATE}}', // our server     variable
+                                url: '{{root_path}}fbconnect?state={{STATE}}', // our server     variable
                                 // ^^It is used to very the
                                 // cross-site reference forgery attack
                                 // False - Ask JQuery not to process the response

@@ -49,6 +49,7 @@ db_secrets_path = os.path.join(PROJECT_ROOT, 'database_secrets.json')
 
 # First set Flask app
 app = Flask(__name__)
+app.secret_key = 'very_secure_password'
 
 db_user = json.loads(
         open(db_secrets_path, 'r').read()
@@ -182,7 +183,8 @@ def loginPg():
             'login.html',
             CLIENT_ID=CLIENT_ID,
             STATE=state_token,
-            prev_path=request.referrer
+            prev_path=request.referrer,
+            root_path=root_path
         )
 
 
@@ -366,8 +368,21 @@ def fbconnect():
         )
     result = httplib2.Http().request(url, 'GET')[1]
 
+    result_json = json.loads(result.decode())
+    if('error' in result_json):
+        response = result_json['error']
+        if('code' in result_json['error']):
+            if(result_json['error']['code'] == 101):
+                response = make_response('Facebook: Invalid Client ID', 401)
+            else:
+                response = make_response('Facebook Error Code: {code}'.format(
+                        code=result_json['error']['code']), 401)
+        response.headers['Content-Type'] = 'text'
+        return response
+
     # Get the access_token (long lived) from the response
-    token = json.loads(result.decode())['access_token']
+    #token = json.loads(result.decode())['access_token']
+    token = result_json['access_token']
     session['access_token'] = token
 
     # Use token to get user information
@@ -997,6 +1012,8 @@ def getLocalID(email):
     '''Get User ID number with email'''
     try:
         user = db_session.query(User).filter_by(email=email).first()
+        if(user is None):
+            return None
         return user.id
     except exc.DatabaseError:
         return None
