@@ -44,18 +44,20 @@ import requests
 # This is to get dynamic loading of url_for while Flask renders templates
 import os
 
+PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
+db_secrets_path = os.path.join(PROJECT_ROOT, 'database_secrets.json')
 
 # First set Flask app
 app = Flask(__name__)
 
 db_user = json.loads(
-        open('database_secrets.json', 'r').read()
+        open(db_secrets_path, 'r').read()
     )["postgresql"]["user"]
 db_password = json.loads(
-        open('database_secrets.json', 'r').read()
+        open(db_secrets_path, 'r').read()
     )["postgresql"]["password"]
 database = json.loads(
-        open('database_secrets.json', 'r').read()
+        open(db_secrets_path, 'r').read()
     )["postgresql"]["database"]
 
 # Instance of create engine class and point to database we use
@@ -96,8 +98,9 @@ del_item_path = item_path + 'delete/'
 
 # Get (JSON Decoding) client ID from the json file which is downloaded from
 # the Google OAuth2 developer website for this app
+client_secrets_path = os.path.join(PROJECT_ROOT, 'client_secrets.json')
 CLIENT_ID = json.loads(
-        open('client_secrets.json', 'r').read()
+        open(client_secrets_path, 'r').read()
     )['web']['client_id']
 APPLICATION_NAME = "Restaurant Menu Application"
 
@@ -207,7 +210,7 @@ def gconnect():
     try:
         # Create new OAuth Flow object with Client's Secrete key info
         # from 'clients_screte.json' file
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets(client_secrets_path, scope='')
         # Message type -> POST
         oauth_flow.redirect_uri = 'postmessage'
         # Get credentials object by initiating setp2 exchange with the
@@ -348,11 +351,13 @@ def fbconnect():
 
     # Trying to use access_token (short_lived) to exchange it with
     # acess_token (long-lived)
+    fb_client_secrets_path = os.path.join(
+            PROJECT_ROOT, 'fb_client_secrets.json')
     app_id = json.loads(
-            open('fb_client_secrets.json', 'r').read()
+            open(fb_client_secrets_path, 'r').read()
         )['web']['app_id']
     app_secret = json.loads(
-            open('fb_client_secrets.json', 'r').read()
+            open(fb_client_secrets_path, 'r').read()
         )['web']['app_secret']
     url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id={app_id}&client_secret={app_secret}&fb_exchange_token={access_token}'.format(
             app_id=app_id,
@@ -998,7 +1003,8 @@ def getLocalID(email):
 
 
 # Start server when this file is run
-if __name__ == '__main__':
-    app.secret_key = 'very_secure_password'
-    app.debug = True
-    app.run(host='0.0.0.0', port=5000)
+#if __name__ == '__main__':
+#    app.secret_key = 'very_secure_password'
+#    app.debug = True
+#    app.run(host='0.0.0.0', port=5000)
+#    app.run()

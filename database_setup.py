@@ -20,6 +20,11 @@ import datetime
 # API to convert Python objects to JSON format or vice versa
 import json
 
+# To get os variables
+# Used to append the url_for link with modified time as extension
+# This is to get dynamic loading of url_for while Flask renders templates
+import os
+
 
 # Instance of the declarative base class
 Base = declarative_base()
@@ -98,14 +103,18 @@ class MenuItem(Base):
             'creater_id': self.creater_id
         }
 
+
+PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
+db_secrets_path = os.path.join(PROJECT_ROOT, 'database_secrets.json')
+
 user = json.loads(
-        open('database_secrets.json', 'r').read()
+        open(db_secrets_path, 'r').read()
     )["postgresql"]["user"]
 password = json.loads(
-        open('database_secrets.json', 'r').read()
+        open(db_secrets_path, 'r').read()
     )["postgresql"]["password"]
 database = json.loads(
-        open('database_secrets.json', 'r').read()
+        open(db_secrets_path, 'r').read()
     )["postgresql"]["database"]
 
 # Instance of create engine class and point to database we use
