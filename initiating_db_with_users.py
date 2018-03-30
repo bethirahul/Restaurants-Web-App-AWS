@@ -3,7 +3,28 @@ from sqlalchemy.orm import sessionmaker
 
 from database_setup import Restaurant, Base, MenuItem, User
 
-engine = create_engine('sqlite:///restaurantmenuwithusers.db')
+import json
+
+
+user = json.loads(
+        open('database_secrets.json', 'r').read()
+    )["postgresql"]["user"]
+password = json.loads(
+        open('database_secrets.json', 'r').read()
+    )["postgresql"]["password"]
+database = json.loads(
+        open('database_secrets.json', 'r').read()
+    )["postgresql"]["database"]
+
+# Instance of create engine class and point to database we use
+engine = create_engine(
+    'postgresql://{user}:{password}@localhost:5432/{database}'.format(
+        user=user,
+        password=password,
+        database=database
+    )
+)
+
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine

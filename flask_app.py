@@ -48,8 +48,24 @@ import os
 # First set Flask app
 app = Flask(__name__)
 
-# Setting database
-engine = create_engine('sqlite:///restaurantmenuwithusers.db')
+db_user = json.loads(
+        open('database_secrets.json', 'r').read()
+    )["postgresql"]["user"]
+db_password = json.loads(
+        open('database_secrets.json', 'r').read()
+    )["postgresql"]["password"]
+database = json.loads(
+        open('database_secrets.json', 'r').read()
+    )["postgresql"]["database"]
+
+# Instance of create engine class and point to database we use
+engine = create_engine(
+    'postgresql://{user}:{password}@localhost:5432/{database}'.format(
+        user=db_user,
+        password=db_password,
+        database=database
+    )
+)
 Base.metadata.bind = engine
 
 # Database session
@@ -57,7 +73,7 @@ DBSession = sessionmaker(bind=engine)
 db_session = DBSession()
 
 # Home Page
-root_path = '/'
+root_path = '/restaurants_catalogue/'
 login_path = root_path + 'login/'
 g_login_success_path = root_path + 'gconnect'
 fb_login_success_path = root_path + 'fbconnect'
@@ -985,4 +1001,4 @@ def getLocalID(email):
 if __name__ == '__main__':
     app.secret_key = 'very_secure_password'
     app.debug = True
-    app.run(host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=5000)

@@ -17,6 +17,9 @@ from sqlalchemy import create_engine
 # To note the current time when the items are updated
 import datetime
 
+# API to convert Python objects to JSON format or vice versa
+import json
+
 
 # Instance of the declarative base class
 Base = declarative_base()
@@ -54,7 +57,7 @@ class Restaurant(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    creater_id = Column(String(250), ForeignKey('user.id'))
+    creater_id = Column(Integer, ForeignKey('user.id'))
     creater = relationship(User)
 
     # Code to define what to send (in each restaurant) in JSON format
@@ -79,7 +82,7 @@ class MenuItem(Base):
     time_of_entry = Column(DateTime, default=datetime.datetime.utcnow)
     restaurant_id = Column(Integer, ForeignKey('restaurant.id'))
     restaurant = relationship(Restaurant)
-    creater_id = Column(String(80), ForeignKey('user.id'))
+    creater_id = Column(Integer, ForeignKey('user.id'))
     creater = relationship(User)
 
     # Code to define what to send (in each item) in JSON format
@@ -95,11 +98,28 @@ class MenuItem(Base):
             'creater_id': self.creater_id
         }
 
+user = json.loads(
+        open('database_secrets.json', 'r').read()
+    )["postgresql"]["user"]
+password = json.loads(
+        open('database_secrets.json', 'r').read()
+    )["postgresql"]["password"]
+database = json.loads(
+        open('database_secrets.json', 'r').read()
+    )["postgresql"]["database"]
 
 # Instance of create engine class and point to database we use
-engine = create_engine('sqlite:///restaurantmenuwithusers.db')
-# ^^ Above example has SQLite3 with database 'restaurant'
+engine = create_engine(
+    'postgresql://{user}:{password}@localhost:5432/{database}'.format(
+        user=user,
+        password=password,
+        database=database
+    )
+)
 
 # This goes into database and creates all the classes we will soon create as
 #   new tables
 Base.metadata.create_all(engine)
+
+if __name__ == '__main__':
+    print("Database setup: completed")
