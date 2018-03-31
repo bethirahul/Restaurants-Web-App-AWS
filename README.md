@@ -39,11 +39,11 @@ It also has a JSON endpoint to provide restaurant details and item details.
     - _AWS default SSH key_ can be obtained from [AWS LightSail console] -> [Account] -> [SSH Keys].
 4. Create a **new user** and add ``sudo`` permission.
     - New user: ``sudo useradd <new_user>``
-    - Add sudo permission by adding an entry in a new file at ``/etc/sudoers.d/<new_file>``
+    - Add sudo permission by adding an entry in a _new file_ at ``/etc/sudoers.d/<new_user>``
         ```conf
         <new_user> ALL=(ALL) NOPASSWD:ALL
         ```
-    - Create a new **SSH key pair** running ``ssh-keygen`` on the local machine.
+    - Create a new **SSH key pair** by running ``ssh-keygen`` on the local machine.
     - Copy the SSH public key into new user's ``/home/<new_user>/.ssh/authorized_keys`` file in the AWS instance.
         - Create the directory and file if they don't exist.
     - Change file permissions and ownership on the ``authorized_keys`` file and ``.ssh`` directory.
@@ -57,7 +57,7 @@ It also has a JSON endpoint to provide restaurant details and item details.
         ```
     - Now, this user on AWS instance can log in from this local machine using the username, IP address of the instance and the SSH private key on the local machine.
         ```bash
-        ssh <new_user>@<ip_address-or-server_address> -p <ssh_port> -i /private/key/location/with/file
+        ssh <new_user>@<ip_address-or-domain> -p <ssh_port> -i /private/key/location/with/file
         ```
 5. Close and login with the new user.
 6. Update the system.
@@ -90,22 +90,27 @@ It also has a JSON endpoint to provide restaurant details and item details.
 
 ### Install softwares
 
-1. Install [**Python 3.5**](https://www.python.org/downloads/), and then ``pip install``:
-    - ``flask``
-    - ``sqlalchemy``
-    - ``oauth2client``
-    - ``httplib2``
-2. Setup Database:
+1. **Python 3.5.2** comes pre-installed on this instance, but not **Pip**. Pip is used to get python packages.
+    - Install Pip: ``sudo apt-get install python3-pip``
+2. Install Python packages
+    - ``pip3 install flask`` --> Flask _(micro-framework)_
+    - ``pip3 install sqlalchemy`` --> SQL toolkit
+    - ``pip3 install oauth2client`` --> OAuth 2.0 client library
+    - ``pip3 install psycopg2`` --> PostgreSQL database adapter
+
+
+
+3. Setup Database:
     - _Skip this step and delete [``restaurantmenuwithusers.db``](/restaurantmenuwithusers.db) file if you want to use my database setup_
     - Run [``database_setup.py``](/database_setup.py) using Python to setup Database
     - Run [``initiating_db_with_users.py``](/initiating_db_with_users.py) using Python to populate the database with values.
         - _You can modify this file with your own values._
-3. Run [``flask_app.py``](/flask_app.py) using Python, the app will be up and running on [localhost:8000](http://localhost:8000) address. Press **Ctrl**+**C** a few times to stop the server.
-4. To be able to use Google and Facebook OAuth 2.0 Authentication, App ID and Client Secret are needed from each of the providers.
+4. Run [``flask_app.py``](/flask_app.py) using Python, the app will be up and running on [localhost:8000](http://localhost:8000) address. Press **Ctrl**+**C** a few times to stop the server.
+5. To be able to use Google and Facebook OAuth 2.0 Authentication, App ID and Client Secret are needed from each of the providers.
     - For Google - Create App Credentials at [Google's Developers webpage](https://console.developers.google.com) and download the clients secret JSON file into the project. Rename it to ``client_secrets.json``.
         - A Mockup of the client secrets json file is already present with other credentials in it [``client_secrets.json``](/client_secrets.json). GO through it to setup credentials at google and replace it with your own ``client_secrets.json`` file.
     - For Facebook - Goto [Facebook's Developers webpage](https://developers.facebook.com/) and create AppCredentials. Copy the App ID and App Secret into the [``fb_client_secrets.json``](/fb_client_secrets.json) file.
-5. There are two type of JSON endpoints for restaurants.
+6. There are two type of JSON endpoints for restaurants.
     - [``/restaurants/json``](http://localhost:8000/restaurants/json) - for all restaurnts' _name_, _ID_ and _creater ID_
     - ``/restaurants/``_\<``Restaurant ID``>_``/json`` - for each restaruant's items
 
