@@ -27,11 +27,13 @@ It also has a JSON endpoint to provide restaurant details and item details.
     - Hosted at [**52.40.101.245**.xip.io](http://52.40.101.245.xip.io)
 6. [**Google**](https://developers.google.com/identity/protocols/OAuth2), [**Facebook**](https://developers.facebook.com/docs/facebook-login) - [OAuth 2.0](https://oauth.net/2/) authentication systems
 7. HTML, CSS
+8. Xip.io DNS
 8. Other tools used while developing (not needed to build the app again):
     - [**Vagrant**](https://www.vagrantup.com/) v2.0.3 virtual machine - identical to AWS instance
         - Used to test and debug the app in the local machine, before setting the app on AWS Cloud.
     - Windows 10 PC, Visual Studio Code
     - [Git-bash](https://git-scm.com/) to access AWS LightSail instance, [GitHub](https://github.com/)
+    - [**Finger**](https://www.lifewire.com/finger-linux-command-4093522), to get more information on a user.
 
 ## Instructions to run
 
@@ -43,11 +45,11 @@ It also has a JSON endpoint to provide restaurant details and item details.
     - _AWS default SSH key_ can be obtained from [AWS LightSail console] -> [Account] -> [SSH Keys].
 4. Create a **new user** and add ``sudo`` permission.
     - New user:
-        - ``sudo useradd <new_user>``
-    - Add sudo permission by adding an entry in a _new file_ at ``/etc/sudoers.d/<new_user>``
-        - ``<new_user> ALL=(ALL) NOPASSWD:ALL``
+        - ``sudo useradd`` _``<new_user>``_
+    - Add sudo permission by adding an entry in a _new file_ at ``/etc/sudoers.d/``_``<new_user>``_
+        - _``<new_user>``_ ``ALL=(ALL) NOPASSWD:ALL``
     - Create a new **SSH key pair** by running ``ssh-keygen`` on the local machine.
-    - Copy the SSH public key into new user's ``/home/<new_user>/.ssh/authorized_keys`` file in the AWS instance.
+    - Copy the SSH public key into new user's ``/home/``_``<new_user>``_``/.ssh/authorized_keys`` file in the AWS instance.
         - Create the directory and file if they don't exist.
     - Change file permissions and ownership on the ``authorized_keys`` file and ``.ssh`` directory.
         ```bash
@@ -59,31 +61,27 @@ It also has a JSON endpoint to provide restaurant details and item details.
         sudo chgrp <new_user> /home/<new_user>/.ssh
         ```
     - Now, this user on AWS instance can log in from this local machine using the username, IP address of the instance and the SSH private key on the local machine.
-        - ``ssh <new_user>@<ip_address-or-domain> -p <ssh_port> -i /private/key/location/with/file``
+        - ``ssh`` _``<new_user>``_``@``_``<ip_address-or-domain>``_ ``-p <ssh_port> -i`` _``/private/key/location/with/file``_
 5. Close and login with the new user.
 6. **Update** the system.
     - ``sudo apt-get update`` --> Check for updates
     - ``sudo apt-get upgrade`` --> Update system
-7. Install [**Finger**](https://www.lifewire.com/finger-linux-command-4093522) to check more details about a user
-    - Install: ``sudo apt-get finger``
-    - Current user info: ``finger``
-    - User info (detailed): ``finger <user>``
-8. Modify **SSH configuration** file ``/etc/ssh/sshd_config``
+7. Modify **SSH configuration** file ``/etc/ssh/sshd_config``
     - Disable _Login-by-password_ by changing ``PasswordAuthentication`` to ``no``
     - Change **SSH port**
-        - First Allow AWS LightSail instance's Firewall to allow/deny the desired ports ``AWS LightSail console -> Instance -> Networking -> Firewall``.
+        - First Allow AWS LightSail instance's Firewall to allow/deny the desired ports [AWS LightSail console] -> [Instance] -> [Networking] -> [Firewall].
         - Change ``Port`` to your desired port number in the configuration file.
     - Restart SSH ``sudo service sshd restart``
-9. Configure **Uncomplicated FireWall** (UFW) to allow SSH (new port), HTTP(80) and NTP(123) ports.
+8. Configure **Uncomplicated FireWall** (UFW) to allow SSH (new port), HTTP(80) and NTP(123) ports.
     - Check status: ``sudo ufw status``
     - ``sudo ufw default deny incoming`` --> Deny all incoming
     - ``sudo ufw default allow outgoing`` --> Allow all outgoing
-    - ``sudo ufw allow <port#>`` --> Allow port
-    - ``sudo ufw allow <port#>/<tcp-or-udp>`` --> Allow port on TCP or UDP
+    - ``sudo ufw allow`` _``<port#>``_ --> Allow port
+    - ``sudo ufw allow`` _``<port#>``_``/``_``<tcp-or-udp>``_ --> Allow port on TCP or UDP
     - Allow changed SSH port and NTP using their port numbers as shown above.
     - HTTP can also be allowed by using names ``www`` or ``http``
         - ``sudo ufw allow www`` or ``sudo ufw allow http``
-10. Configure the **Local time-zone** to UTC.
+9. Configure the **Local time-zone** to UTC.
     - Run ``sudo dpkg-reconfigure tzdata``
     - Then select [None of the above] -> [UTC]
 
@@ -102,19 +100,78 @@ It also has a JSON endpoint to provide restaurant details and item details.
     - ``pip3 install psycopg2`` --> PostgreSQL database adapter
     - ``sudo apt-get install libapache2-mod-wsgi-py3`` --> Apache module (WSGI)
 
-### Setup Database
+### Setup Database server
 
-1. Setup Database:
-    - _Skip this step and delete [``restaurantmenuwithusers.db``](/restaurantmenuwithusers.db) file if you want to use my database setup_
-    - Run [``database_setup.py``](/database_setup.py) using Python to setup Database
-    - Run [``initiating_db_with_users.py``](/initiating_db_with_users.py) using Python to populate the database with values.
-        - _You can modify this file with your own values._
-2. Run [``flask_app.py``](/flask_app.py) using Python, the app will be up and running on [localhost:8000](http://localhost:8000) address. Press **Ctrl**+**C** a few times to stop the server.
-3. To be able to use Google and Facebook OAuth 2.0 Authentication, App ID and Client Secret are needed from each of the providers.
-    - For Google - Create App Credentials at [Google's Developers webpage](https://console.developers.google.com) and download the clients secret JSON file into the project. Rename it to ``client_secrets.json``.
-        - A Mockup of the client secrets json file is already present with other credentials in it [``client_secrets.json``](/client_secrets.json). GO through it to setup credentials at google and replace it with your own ``client_secrets.json`` file.
-    - For Facebook - Goto [Facebook's Developers webpage](https://developers.facebook.com/) and create AppCredentials. Copy the App ID and App Secret into the [``fb_client_secrets.json``](/fb_client_secrets.json) file.
-4. There are two type of JSON endpoints for restaurants.
+1. Change user to _postgres_ (default PostgreSQL user) - ``sudo su postgres``
+2. Log into PostgreSQL server by running command: ``psql``
+3. Create a new **database user** with only login permission.
+    ``` SQL
+    CREATE USER <user> WITH
+        LOGIN
+        NOSUPERUSER
+        NOCREATEDB
+        NOCREATEROLE
+        INHERIT
+        NOREPLICATION
+        CONNECTION LIMIT -1
+        PASSWORD '<password>';
+    ```
+4. Create **new database** with the _new user_ as its owner.
+    ``` SQL
+    CREATE DATABASE <database>
+        WITH
+        OWNER = <user>
+        ENCODING = 'UTF8'tablespace
+        CONNECTION LIMIT = -1;
+    ```
+
+### Setup Project
+
+1. Clone this project into your desired directory. Goto the desired directory, then run:
+    - ``git clone https://github.com/bethirahul/Restaurants-Web-App-AWS``
+2. Create a new file ``database_secrets.json`` in the project root folder and fill it up with database details, as shown here.
+    ```json
+    {
+        "postgresql": {
+            "user": "<database_user>",
+            "password": "<password>",
+            "database": "<database_name>"
+        }
+    }
+    ```
+3. To use Google OAuth 2.0 authentication, goto [Google's Developers webpage](https://console.developers.google.com) and create new app (button on top).
+    - Goto [Credentials] -> [Credentials] and create a new OAuth client ID. Open the client ID
+        - Set Javascript Origins to ``http://``_``<server_ip_address>``_``.xip.io``
+        - Set Redirect URIs to ``http://``_``<server_ip_address>``_``.xip.io/restaurants_catalogue/gconnect``
+        - Get the client secrets by clicking [Download Json] button on the top. Place this file in the project root folder and rename it to ``client_secrets.json``.
+    - Goto [Credentials] -> [OAuth consent screen] and set _Email_ and _Product Name_.
+4. To use Facebook OAuth 2.0 authentication, goto [Facebook's Developers webpage](https://developers.facebook.com/)
+    - Goto [My Apps] (top right corner) and [Add a New App].
+    - Goto [Add a Product] -> [Facebook Login] -> [Set Up]
+    - Goto [Facebook Login] (left) -> [Settings] and set Redirect URIs to
+        - ``http://``_``<server_ip_address>``_``.xip.io/restaurants_catalogue/fbconnect``
+    - Goto [Settings] (left) -> [Basic]
+        - Copy the App ID and App Secret into a new file named ``fb_client_secrets.json`` in the project root folder. Fill it up as shown here
+            ```json
+            {
+                "web": {
+                    "app_id": "<your_app_id>",
+                    "app_secret": "<your_app_secret>"
+                }
+            }
+            ```
+
+### Setup Apache web server
+
+1. Create a new file at ``/etc/apache2/sites-available/``_``<new_conf_file>``_``.conf`` and fill it up by modifying the templete file [restaurants_app.conf](/apache/restaurants_app.conf)
+2. Run command ``sudo a2ensite`` _``<new_conf_file>``_``.conf`` to let the apache server take the new configuration file.
+    - To disable a configuration file, run ``sudo a2dissite`` _``<conf_file>``_``.conf``
+3. Restart server - ``sudo service apache2 reload``
+
+
+## Old
+
+1. There are two type of JSON endpoints for restaurants.
     - [``/restaurants/json``](http://localhost:8000/restaurants/json) - for all restaurnts' _name_, _ID_ and _creater ID_
     - ``/restaurants/``_\<``Restaurant ID``>_``/json`` - for each restaruant's items
 
