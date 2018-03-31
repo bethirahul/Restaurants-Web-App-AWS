@@ -13,25 +13,77 @@ It also has a JSON endpoint to provide restaurant details and item details.
 ## Built using
 
 1. [**Python**](https://www.python.org/) v3.5.2 - [**Flask**](http://flask.pocoo.org/) v0.12.2 (_micro-framework_), [SQLAlchemy](https://www.sqlalchemy.org/) v1.2.6, [OAuth2client](https://pypi.python.org/pypi/oauth2client) v4.1.2
-2. [**Apache**](https://httpd.apache.org/) v2.4.18 (_web server_)
-    - [mod_wsgi](https://modwsgi.readthedocs.io/en/develop/) v4.3.0 (_package_)
-3. [**PostgreSQL**](https://www.postgresql.org/) v9.5.12 (_database server_)
-4. [Ubuntu 16.04 LTS](http://releases.ubuntu.com/16.04/) (_linux operating system_)
+2. [**Apache**](https://httpd.apache.org/) v2.4.18 web server
+    - [mod_wsgi](https://modwsgi.readthedocs.io/en/develop/) v4.3.0 package
+3. [**PostgreSQL**](https://www.postgresql.org/) v9.5.12 database server
+4. [Ubuntu 16.04 LTS](http://releases.ubuntu.com/16.04/) linux operating system
     - [Git](https://git-scm.com/), [OpenSSH](https://www.openssh.com/) with key pairs, [Curl](https://curl.haxx.se/docs/manpage.html)
-5. [**Amazon Web Services**](https://aws.amazon.com/) (AWS) - [LightSail](https://aws.amazon.com/lightsail/) (_virtual machine_) instance on AWS Cloud
+5. [**Amazon Web Services**](https://aws.amazon.com/) (AWS) - [LightSail](https://aws.amazon.com/lightsail/) virtual machine instance on AWS Cloud
     - Lower configuration than a AWS EC2 _t2-micro_ instance (512MB RAM), cheaper pricing and free tier.
     - Hosted at [**52.40.101.245**.xip.io](http://52.40.101.245.xip.io)
 6. [**Google**](https://developers.google.com/identity/protocols/OAuth2), [**Facebook**](https://developers.facebook.com/docs/facebook-login) - [OAuth 2.0](https://oauth.net/2/) authentication systems
 7. HTML, CSS
-8. Other tools used while building:
-    - [**Vagrant**](https://www.vagrantup.com/) v2.0.3 (_virtual machine_) - identical to AWS instance
+8. Other tools used while developing (not needed to build the app again):
+    - [**Vagrant**](https://www.vagrantup.com/) v2.0.3 virtual machine - identical to AWS instance
+        - Used to test and debug the app in the local machine, before setting the app on AWS Cloud.
     - Windows 10 PC, Visual Studio Code
     - [Git-bash](https://git-scm.com/) to access AWS LightSail instance, [GitHub](https://github.com/)
-    
 
 ## Instructions to run
 
-1. 
+### Setup system
+
+1. Get an [**AWS** account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start) (free tier) and create a [**LightSail**](https://lightsail.aws.amazon.com/ls/webapp/home/instances) instance with '_OS only (Ubuntu 16.04 LTS)_' option.
+2. Create a _Static IP address_ from ``AWS LightSail console -> Networking`` and attach it to the instance created.
+3. Open the instance from the AWS console (opens in browser) or by SSH into the instance by using username ``ubuntu``, instance's IP address and SSH private key location .
+    - _AWS default SSH key_ can be obtained from ``AWS LightSail console -> Account -> SSH Keys``.
+4. Create a **new user** and add ``sudo`` permission by adding an entry in ``/etc/sudoers.d/<new_file>``
+    - Create a new **SSH key pair** using ``ssh-keygen`` on the local machine.
+    - Copy the SSH public key into new user's ``/home/<new_user>/.ssh/authorized_keys`` file in the AWS instance.
+    - Change file permissions and ownership on the ``authorized_keys`` file and ``.ssh`` directory.
+        ```bash
+        sudo chmod 600 /home/<new_user>/.ssh/authorized_keys
+        sudo chmod 700 /home/<new_user>/.ssh
+        sudo chown <new_user> /home/<new_user>/.ssh/authorized_keys
+        sudo chown <new_user> /home/<new_user>/.ssh
+        sudo chgrp <new_user> /home/<new_user>/.ssh/authorized_keys
+        sudo chgrp <new_user> /home/<new_user>/.ssh
+        ```
+    - Now this user on AWS instance can be logged in from this local machine using the username, IP address of the instance and the SSH private key on the local machine.
+        ```bash
+        ssh <new_user>@<ip_address-or-server_address> -p <ssh_port> -i /private/key/location/with/file
+        ```
+5. Close and login with the new user.
+6. Update the system.
+    ```bash
+    sudo apt-get update
+    sudo apt-get upgrade
+    ```
+7. Install **Finger** to check more details about a user
+    - Install: ``sudo apt-get finger``
+    - Current user info: ``finger``
+    - User info (detailed): ``finger <user>``
+8. Modify SSH configuration file ``/etc/ssh/sshd_config``
+    - Disable _Login-by-password_ by changing ``PasswordAuthentication`` to ``no``
+    - Change **SSH port**
+        - First Allow AWS LightSail instance's Firewall to allow/deny the desired ports ``AWS LightSail console -> Instance -> Networking -> Firewall``.
+        - Change ``Port`` to your desired port number in the configuration file.
+    - Restart SSH ``sudo service sshd restart``
+9. Configure **Uncomplicated FireWall** (UFW) to allow SSH (new port), HTTP(80) and NTP(123) ports.
+    - Check status: ``sudo ufw status``
+    - Deny all incoming: ``sudo ufw default deny incoming``
+    - Allow all outgoing: ``sudo ufw default allow outgoing``
+    - Allow port: ``sudo ufw allow <port#>``
+    - Allow port on TCP or UDP: ``sudo ufw allow <port#>/<tcp-or-udp>``
+    - Allow changed SSH port and NTP using their port numbers as shown above.
+    - HTTP can also be allowed by using names ``www`` or ``http``
+        - ``sudo ufw allow www`` or ``sudo ufw allow http``
+10. Configure the local time-zone to UTC.
+    - Run ``sudo dpkg-reconfigure tzdata``
+    - Then select ``None of the above -> UTC``
+
+### Install softwares
+
 1. Install [**Python 3.5**](https://www.python.org/downloads/), and then ``pip install``:
     - ``flask``
     - ``sqlalchemy``
