@@ -160,6 +160,12 @@ It also has a JSON endpoint to provide restaurant details and item details.
                 }
             }
             ```
+5. Run [database_setup.py](database_setup.py) file using python 3, to setup the database with necessary tabels (with rows and columns).
+    - ``python3 database_setup.py``
+6. Run [initiating_db_with_users.py](initiating_db_with_users.py) to fill the database tables with some information, this is needed for the app to work.
+    - ``python3 initiating_db_with_users.py``
+    - You can modify this file or make another file by taking this file as a templete.
+    - **_Note_:** Running the same file more than once without modifying, will add  duplicate entries into the database.
 
 ### Setup Apache web server
 
@@ -169,6 +175,8 @@ It also has a JSON endpoint to provide restaurant details and item details.
 3. Restart web server - ``sudo service apache2 reload``
 
 ## Design
+
+This project is the extension of the Restaurant's web app. Hosting the app onto the web using a virtual machine on the cloud is done here.
 
 1. A **AWS LightSail** virtual machine (VM) instance is setup with **Ubuntu 16.04 LTS** linux operating system.
 2. A **Static IP** is created for that instance.
@@ -182,39 +190,16 @@ It also has a JSON endpoint to provide restaurant details and item details.
 8. The **Uncomplicated FireWall** (UFW) on the VM is also setup to block all incoming ports except, the new SSH port, HTTP and NTP ports. All outgoing ports are allowed.
 9. **Local time-zone** is set to UTC.
 10. System is **updated** and all the necessary software and their packages are **installed**.
-11. 
+11. Application is cloned into a directory using **Git**.
+12. **PostgreSQL database** server is configured by creating a new user and creating a new database with the owner of the new database being the new database. These details are stored in the ``database_secrets.json`` file, so that the app can use those details to access the database.
+13. **Database is setup** with necessary tables by using the username, password and database name from the ``database_secrets.json`` file.
+14. **Database is then populated** with some Restaurant names, item names and users.
+15. **Google and Facebook app secrets** are taken and stored in their respective json files. These details are used by the app to login a user using **OAuth2.0** authentication.
+16. Apache web server is configured by adding the app's apache configuration into the server's configuration folder. Then the server is updated with the new configuration file. Restart the server to take effect.
 
-## Old
+This makes the app run at ``http://``_``<server_ip_address>``_``.xip.io/restaurants_catalogue/``
 
-1. There are two type of JSON endpoints for restaurants.
-    - [``/restaurants/json``](http://localhost:8000/restaurants/json) - for all restaurnts' _name_, _ID_ and _creater ID_
-    - ``/restaurants/``_\<``Restaurant ID``>_``/json`` - for each restaruant's items
-
-2. [``database_setup.py``](/database_setup.py) uses SQLAlchemy library to setup database and tables inside it.
-    - It has classes for tables and Columns in each table.
-    - Serialize function in each class to return items in easily readable format - to convert to json.
-    - Menu Item class also has time variable which stores the time when the item is created. This is used to sort the latest added items.
-
-3. [``initiating_db_with_users.py``](/initiating_db_with_users.py) is used to populate the empty database which was created.
-
-4. The server code [``flask_app.py``](/flask_app.py) is the main program.
-    - It handles all the requests from the client, including Google and Facebook _OAuth 2.0_ Authentication.
-        - Files [``client_secret.json``](/client_secret.json) for Google and [``initiating_db_with_users.py``](/initiating_db_with_users.py) for Facebook are used get the App ID and Client Secret for respective providers.
-        - A Random string is generated and used to send and receive as state_token to avoid _Cross-site Reference Forgery attacks_.
-        - When a user log-in for the first time, A new entry is created in the database by getting the details of user's _name_, _profile picture_, _email_ and _ID_.
-        - A returning user is identified using his _email_ address.
-
-    - It also handles _CRUD operations_ (using SQLAlchemy) on the database which we created, based on the requests we get from client.
-    - Two _Methods_ are supported, GET and POST as HTML5 only supports these two.
-        - All links are accessed through GET method, only CRUD operations and login pages use POST method to submit the requests.
-
-    - Flask framework is used to _handle requests_, send _**Flash messages**_ for errors, and render _**Dynamic HTML webpages**_.
-        - The HTML templates are located in [templates](/templates) folder.
-        - CSS style sheet [``styles.css``](/static/styles.css) is located in [static](/ststic) folder
-
-    - And at last the web server is run on [localhost:8000](http://localhost:8000) address.
-
-_Please read through the detailed code comments in [``flask_app.py``](/flask_app.py) to know how the app is built._
+Address to my hosted app: http://52.40.101.245.xip.io/restaurants_catalogue
 
 **Screenshots** of all the pages are located in [Screenshots](/Screenshots) folder.
 
