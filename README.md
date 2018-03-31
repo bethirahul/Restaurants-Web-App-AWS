@@ -1,23 +1,32 @@
-# My Restaurants' Catalogue (App) - Work in progress
-## Amazon Web Services
+# My Restaurants' Catalogue (App) - Amazon Web Services
 
-[My original project](https://github.com/bethirahul/Restaurant-Web-app)
+This project is the extension of my existing project - [My Restaurants' Catalogue Web app](https://github.com/bethirahul/Restaurant-Web-app).
+Built by _**Rahul Bethi**_.
 
-This is a Restaurants Catalogue app, built by _**Rahul Bethi**_.
+It is a **Web application** hosted on [**Amazon Web Services (AWS)**](https://aws.amazon.com/) [**LightSail**](https://aws.amazon.com/lightsail/) [_Ubuntu_](https://www.ubuntu.com/) instance. It has a web server ([**Apache 2**](https://httpd.apache.org/)) with a database ([**PostgreSQL**](https://www.postgresql.org/)) to store and edit information about Restaurants and the food items sold in them.
+It also has a user system with [_Google_](https://developers.google.com/identity/protocols/OAuth2) and [_Facebook_](https://developers.facebook.com/docs/facebook-login) [**OAuth 2.0 authentication**](https://oauth.net/2/) to login and make modifications ([**CRUD operations**](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)) to _add_, _edit_ or _delete_ restaurants and their items.
 
-It is a **Web server** with a database to store and edit information about Restaurants and the food items sold in them.
-It also has a user system with Google and Facebook **OAuth 2.0 authentication** to login and make modifications (**CRUD operations**) to _add_, _edit_ or _delete_ restaurants and their items.
-
-It also has a JSON endpoint to provide restaurant details and item details
+It also has a [JSON](https://www.json.org/) endpoint to provide restaurant details and item details.
 
 ## Built using
 
-- **Python 3.5** - **Flask** framework, **SQLAlchemy**, OAuth2, Jsonify
+- [**Python 3.5.2**](https://www.python.org/) - [**Flask 0.12.2**](http://flask.pocoo.org/) micro-framework, [**SQLAlchemy 1.2.6**](https://www.sqlalchemy.org/), [**OAuth2client 4.1.2**](https://pypi.python.org/pypi/oauth2client)
+- [**Apache 2.4.18**](https://httpd.apache.org/) web server
+    - [``mod_wsgi`` 4.3.0](https://modwsgi.readthedocs.io/en/develop/) package
+- [**PostgreSQL 9.5.12**](https://www.postgresql.org/) database server
+- [**Ubuntu 16.04 LTS**](http://releases.ubuntu.com/16.04/) linux operating system
+    - [Git](https://git-scm.com/), [Open**SSH**](https://www.openssh.com/) with key pairs, [Curl](https://curl.haxx.se/docs/manpage.html)
+- [**Amazon Web Services (AWS)**](https://aws.amazon.com/) - [**LightSail**](https://aws.amazon.com/lightsail/) virtual machine instance on AWS Cloud
+    - _Configuration_: 1 virtual CPU, 512 MB RAM, 20GB SSD
+    - Same as AWS - EC2 instance, but with lower configuration, cheaper pricing and free tier.
+    - Hosted at [**52.40.101.245**.xip.io](http://52.40.101.245.xip.io)
+- [**Google**](https://developers.google.com/identity/protocols/OAuth2), [**Facebook**](https://developers.facebook.com/docs/facebook-login) [OAuth 2.0 authentication](https://oauth.net/2/) systems
+- **HTML**, **CSS**
 - Other tools used while building:
-    - [Vagrant](https://www.vagrantup.com/) - [Ubuntu](http://releases.ubuntu.com/16.04/) Linux - virtual machine
-    - [Postman](https://www.getpostman.com/apps)
-    - **HTML**, **CSS**
-    - **Google**, **Facebook** OAuth 2.0 user login systems
+    - [**Vagrant 2.0.3**](https://www.vagrantup.com/) - [Ubuntu 16.04 LTS](http://releases.ubuntu.com/16.04/) Linux instance - local virtual machine
+    - Windows 10 PC, Visual Studio Code
+    - [Git-bash](https://git-scm.com/) to access AWS LightSail instance, [GitHub](https://github.com/)
+    
 
 ## Instructions to run
 
