@@ -2,17 +2,17 @@
 
 Application link: http://52.40.101.245.xip.io/restaurants_catalogue
 
-This project is the extension of my existing project - [My Restaurants' Catalogue Web app](https://github.com/bethirahul/Restaurant-Web-app).
+This project is the extension of my existing project - [**My Restaurants' Catalogue**](https://github.com/bethirahul/Restaurant-Web-app).
 Built by _**Rahul Bethi**_.
 
-It is a **Web application** hosted on [Amazon Web Services (AWS)](https://aws.amazon.com/) [LightSail](https://aws.amazon.com/lightsail/) [_Ubuntu_](https://www.ubuntu.com/) instance. It has a web server ([Apache 2](https://httpd.apache.org/)) with a database ([PostgreSQL](https://www.postgresql.org/)) to store and edit information about **Restaurants** and the **food items** sold in them.
-It also has a user system with [_Google_](https://developers.google.com/identity/protocols/OAuth2) and [_Facebook_](https://developers.facebook.com/docs/facebook-login) [OAuth 2.0 authentication](https://oauth.net/2/) to login and make modifications ([CRUD operations](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)) to _add_, _edit_ or _delete_ restaurants and their items.
+It is a **Web application** hosted on [Amazon Web Services (AWS)](https://aws.amazon.com/) [LightSail](https://aws.amazon.com/lightsail/) Ubuntu instance. It has a web server (Apache 2) with a database (PostgreSQL) to store and edit information about **Restaurants** and the **food items** sold in them.
+It also has a user system with [_Google_](https://developers.google.com/identity/protocols/OAuth2) and [_Facebook_](https://developers.facebook.com/docs/facebook-login) - [OAuth 2.0](https://oauth.net/2/) authentication to login and make modifications (CRUD operations) to _add_, _edit_ or _delete_ restaurants and their items.
 
-It also has a [JSON](https://www.json.org/) endpoint to provide restaurant details and item details.
+It also has a JSON endpoint to provide restaurant details and item details.
 
 ## Built using
 
-1. [**Python** 3.5.2](https://www.python.org/) - [**Flask** 0.12.2](http://flask.pocoo.org/) micro-framework, [SQLAlchemy 1.2.6](https://www.sqlalchemy.org/), [OAuth2client 4.1.2](https://pypi.python.org/pypi/oauth2client)
+1. [**Python** 3.5.2](https://www.python.org/) -- [**Flask** 0.12.2](http://flask.pocoo.org/) micro-framework, [SQLAlchemy 1.2.6](https://www.sqlalchemy.org/), [OAuth2client 4.1.2](https://pypi.python.org/pypi/oauth2client)
 2. [**Apache** 2.4.18](https://httpd.apache.org/) web server
     - [``mod_wsgi`` 4.3.0](https://modwsgi.readthedocs.io/en/develop/) package
 3. [**PostgreSQL** 9.5.12](https://www.postgresql.org/) database server
@@ -25,7 +25,7 @@ It also has a [JSON](https://www.json.org/) endpoint to provide restaurant detai
 6. [**Google**](https://developers.google.com/identity/protocols/OAuth2), [**Facebook**](https://developers.facebook.com/docs/facebook-login) - [OAuth 2.0 authentication](https://oauth.net/2/) systems
 7. HTML, CSS
 8. Other tools used while building:
-    - [**Vagrant** 2.0.3](https://www.vagrantup.com/) - [Ubuntu 16.04 LTS](http://releases.ubuntu.com/16.04/) Linux instance - local virtual machine
+    - [**Vagrant** 2.0.3](https://www.vagrantup.com/) virtual machine - identical to AWS instance
     - Windows 10 PC, Visual Studio Code
     - [Git-bash](https://git-scm.com/) to access AWS LightSail instance, [GitHub](https://github.com/)
     
