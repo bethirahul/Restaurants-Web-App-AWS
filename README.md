@@ -85,7 +85,7 @@ It also has a JSON endpoint to provide restaurant details and item details.
     - Run ``sudo dpkg-reconfigure tzdata``
     - Then select [None of the above] -> [UTC]
 
-### Install softwares
+### Install software
 
 1. Install **Apache2** web server
     - ``sudo apt-get install apache2``
@@ -127,9 +127,9 @@ It also has a JSON endpoint to provide restaurant details and item details.
 
 ### Setup Project
 
-1. Clone this project into your desired directory. Goto the desired directory, then run:
+1. Clone this project into your _desired directory_. Goto the _desired directory_, then run:
     - ``git clone https://github.com/bethirahul/Restaurants-Web-App-AWS``
-2. Create a new file ``database_secrets.json`` in the project root folder and fill it up with database details, as shown here.
+2. Create a _new file_ ``database_secrets.json`` in the project root folder and fill it up with database details (_user_, _password_ and _database_ which were created earlier), as shown here.
     ```json
     {
         "postgresql": {
@@ -139,13 +139,13 @@ It also has a JSON endpoint to provide restaurant details and item details.
         }
     }
     ```
-3. To use Google OAuth 2.0 authentication, goto [Google's Developers webpage](https://console.developers.google.com) and create new app (button on top).
+3. To use **Google OAuth 2.0** authentication, goto [Google's Developers webpage](https://console.developers.google.com) and create new app (button on top).
     - Goto [Credentials] -> [Credentials] and create a new OAuth client ID. Open the client ID
         - Set Javascript Origins to ``http://``_``<server_ip_address>``_``.xip.io``
         - Set Redirect URIs to ``http://``_``<server_ip_address>``_``.xip.io/restaurants_catalogue/gconnect``
         - Get the client secrets by clicking [Download Json] button on the top. Place this file in the project root folder and rename it to ``client_secrets.json``.
     - Goto [Credentials] -> [OAuth consent screen] and set _Email_ and _Product Name_.
-4. To use Facebook OAuth 2.0 authentication, goto [Facebook's Developers webpage](https://developers.facebook.com/)
+4. To use **Facebook OAuth 2.0** authentication, goto [Facebook's Developers webpage](https://developers.facebook.com/)
     - Goto [My Apps] (top right corner) and [Add a New App].
     - Goto [Add a Product] -> [Facebook Login] -> [Set Up]
     - Goto [Facebook Login] (left) -> [Settings] and set Redirect URIs to
@@ -164,10 +164,25 @@ It also has a JSON endpoint to provide restaurant details and item details.
 ### Setup Apache web server
 
 1. Create a new file at ``/etc/apache2/sites-available/``_``<new_conf_file>``_``.conf`` and fill it up by modifying the templete file [restaurants_app.conf](/apache/restaurants_app.conf)
-2. Run command ``sudo a2ensite`` _``<new_conf_file>``_``.conf`` to let the apache server take the new configuration file.
+2. Run command ``sudo a2ensite`` _``<new_conf_file>``_``.conf`` to let the apache server use the new configuration file.
     - To disable a configuration file, run ``sudo a2dissite`` _``<conf_file>``_``.conf``
-3. Restart server - ``sudo service apache2 reload``
+3. Restart web server - ``sudo service apache2 reload``
 
+## Design
+
+1. A **AWS LightSail** virtual machine (VM) instance is setup with **Ubuntu 16.04 LTS** linux operating system.
+2. A **Static IP** is created for that instance.
+3. **Domain name** of the server is created using Xio.io, a free Public DNS server.
+    - Any domain name can be created from an IP address by appending the IP address with ``.xip.io``
+    - THe DNS server just redirects back the IP address.
+4. A **new user** with is created and sudo permissions are assigned.
+5. A new pair of **SSH Keys** are setup and are used between the host machine and the new user in the AWS VM. Login with password is disabled on the VM.
+6. **SSH port** is changed as a precaution to stop attacks on the default port.
+7. **AWS LightSail Firewall** is configured to allow this new port.
+8. The **Uncomplicated FireWall** (UFW) on the VM is also setup to block all incoming ports except, the new SSH port, HTTP and NTP ports. All outgoing ports are allowed.
+9. **Local time-zone** is set to UTC.
+10. System is **updated** and all the necessary software and their packages are **installed**.
+11. 
 
 ## Old
 
@@ -175,16 +190,14 @@ It also has a JSON endpoint to provide restaurant details and item details.
     - [``/restaurants/json``](http://localhost:8000/restaurants/json) - for all restaurnts' _name_, _ID_ and _creater ID_
     - ``/restaurants/``_\<``Restaurant ID``>_``/json`` - for each restaruant's items
 
-## Design
-
-1. [``database_setup.py``](/database_setup.py) uses SQLAlchemy library to setup database and tables inside it.
+2. [``database_setup.py``](/database_setup.py) uses SQLAlchemy library to setup database and tables inside it.
     - It has classes for tables and Columns in each table.
     - Serialize function in each class to return items in easily readable format - to convert to json.
     - Menu Item class also has time variable which stores the time when the item is created. This is used to sort the latest added items.
 
-2. [``initiating_db_with_users.py``](/initiating_db_with_users.py) is used to populate the empty database which was created.
+3. [``initiating_db_with_users.py``](/initiating_db_with_users.py) is used to populate the empty database which was created.
 
-3. The server code [``flask_app.py``](/flask_app.py) is the main program.
+4. The server code [``flask_app.py``](/flask_app.py) is the main program.
     - It handles all the requests from the client, including Google and Facebook _OAuth 2.0_ Authentication.
         - Files [``client_secret.json``](/client_secret.json) for Google and [``initiating_db_with_users.py``](/initiating_db_with_users.py) for Facebook are used get the App ID and Client Secret for respective providers.
         - A Random string is generated and used to send and receive as state_token to avoid _Cross-site Reference Forgery attacks_.
@@ -205,6 +218,6 @@ _Please read through the detailed code comments in [``flask_app.py``](/flask_app
 
 **Screenshots** of all the pages are located in [Screenshots](/Screenshots) folder.
 
-#### My LinkedIn profile
+### My LinkedIn profile
 
 https://www.linkedin.com/in/rahulbethi
