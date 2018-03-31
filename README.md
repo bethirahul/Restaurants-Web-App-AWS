@@ -12,9 +12,13 @@ It also has a JSON endpoint to provide restaurant details and item details.
 
 ## Built using
 
-1. [**Python**](https://www.python.org/) v3.5.2 - [**Flask**](http://flask.pocoo.org/) v0.12.2 (_micro-framework_), [SQLAlchemy](https://www.sqlalchemy.org/) v1.2.6, [OAuth2client](https://pypi.python.org/pypi/oauth2client) v4.1.2
+1. [**Python**](https://www.python.org/) v3.5.2
+    - [**Flask**](http://flask.pocoo.org/) v0.12.2 - micro-framework
+    - [SQLAlchemy](https://www.sqlalchemy.org/) v1.2.6 - SQL toolkit
+    - [OAuth2client](https://pypi.python.org/pypi/oauth2client) v4.1.2 - OAuth 2.0 client library
+    - [Psycopg2](http://initd.org/psycopg/) v2.7.4 - PostgreSQL adapter
 2. [**Apache**](https://httpd.apache.org/) v2.4.18 web server
-    - [mod_wsgi](https://modwsgi.readthedocs.io/en/develop/) v4.3.0 package
+    - [mod_wsgi](https://pypi.python.org/pypi/mod_wsgi) v4.3.0 - Apache module for [WSGI](https://www.python.org/dev/peps/pep-3333/) compliant interface
 3. [**PostgreSQL**](https://www.postgresql.org/) v9.5.12 database server
 4. [Ubuntu 16.04 LTS](http://releases.ubuntu.com/16.04/) linux operating system
     - [Git](https://git-scm.com/), [OpenSSH](https://www.openssh.com/) with key pairs, [Curl](https://curl.haxx.se/docs/manpage.html)
@@ -38,11 +42,10 @@ It also has a JSON endpoint to provide restaurant details and item details.
 3. Open the instance from the [AWS LightSail console] (opens in browser) or by SSH into the instance by using username ``ubuntu``, instance's IP address and SSH private key location.
     - _AWS default SSH key_ can be obtained from [AWS LightSail console] -> [Account] -> [SSH Keys].
 4. Create a **new user** and add ``sudo`` permission.
-    - New user: ``sudo useradd <new_user>``
+    - New user:
+        - ``sudo useradd <new_user>``
     - Add sudo permission by adding an entry in a _new file_ at ``/etc/sudoers.d/<new_user>``
-        ```conf
-        <new_user> ALL=(ALL) NOPASSWD:ALL
-        ```
+        - ``<new_user> ALL=(ALL) NOPASSWD:ALL``
     - Create a new **SSH key pair** by running ``ssh-keygen`` on the local machine.
     - Copy the SSH public key into new user's ``/home/<new_user>/.ssh/authorized_keys`` file in the AWS instance.
         - Create the directory and file if they don't exist.
@@ -56,20 +59,16 @@ It also has a JSON endpoint to provide restaurant details and item details.
         sudo chgrp <new_user> /home/<new_user>/.ssh
         ```
     - Now, this user on AWS instance can log in from this local machine using the username, IP address of the instance and the SSH private key on the local machine.
-        ```bash
-        ssh <new_user>@<ip_address-or-domain> -p <ssh_port> -i /private/key/location/with/file
-        ```
+        - ``ssh <new_user>@<ip_address-or-domain> -p <ssh_port> -i /private/key/location/with/file``
 5. Close and login with the new user.
-6. Update the system.
-    ```bash
-    sudo apt-get update
-    sudo apt-get upgrade
-    ```
-7. Install **Finger** to check more details about a user
+6. **Update** the system.
+    - ``sudo apt-get update`` --> Check for updates
+    - ``sudo apt-get upgrade`` --> Update system
+7. Install [**Finger**](https://www.lifewire.com/finger-linux-command-4093522) to check more details about a user
     - Install: ``sudo apt-get finger``
     - Current user info: ``finger``
     - User info (detailed): ``finger <user>``
-8. Modify SSH configuration file ``/etc/ssh/sshd_config``
+8. Modify **SSH configuration** file ``/etc/ssh/sshd_config``
     - Disable _Login-by-password_ by changing ``PasswordAuthentication`` to ``no``
     - Change **SSH port**
         - First Allow AWS LightSail instance's Firewall to allow/deny the desired ports ``AWS LightSail console -> Instance -> Networking -> Firewall``.
@@ -77,40 +76,45 @@ It also has a JSON endpoint to provide restaurant details and item details.
     - Restart SSH ``sudo service sshd restart``
 9. Configure **Uncomplicated FireWall** (UFW) to allow SSH (new port), HTTP(80) and NTP(123) ports.
     - Check status: ``sudo ufw status``
-    - Deny all incoming: ``sudo ufw default deny incoming``
-    - Allow all outgoing: ``sudo ufw default allow outgoing``
-    - Allow port: ``sudo ufw allow <port#>``
-    - Allow port on TCP or UDP: ``sudo ufw allow <port#>/<tcp-or-udp>``
+    - ``sudo ufw default deny incoming`` --> Deny all incoming
+    - ``sudo ufw default allow outgoing`` --> Allow all outgoing
+    - ``sudo ufw allow <port#>`` --> Allow port
+    - ``sudo ufw allow <port#>/<tcp-or-udp>`` --> Allow port on TCP or UDP
     - Allow changed SSH port and NTP using their port numbers as shown above.
     - HTTP can also be allowed by using names ``www`` or ``http``
         - ``sudo ufw allow www`` or ``sudo ufw allow http``
-10. Configure the local time-zone to UTC.
+10. Configure the **Local time-zone** to UTC.
     - Run ``sudo dpkg-reconfigure tzdata``
     - Then select [None of the above] -> [UTC]
 
 ### Install softwares
 
-1. **Python 3.5.2** comes pre-installed on this instance, but not **Pip**. Pip is used to get python packages.
+1. Install **Apache2** web server
+    - ``sudo apt-get install apache2``
+2. Install **PostgreSQL** database server
+    - ``sudo apt-get install postgresql``
+3. **Python 3.5.2** comes pre-installed on this instance, but not [**Pip**](https://pypi.python.org/pypi/pip). Pip is used to get python packages.
     - Install Pip: ``sudo apt-get install python3-pip``
-2. Install Python packages
-    - ``pip3 install flask`` --> Flask _(micro-framework)_
+4. Install Python packages
+    - ``pip3 install flask`` --> **Flask** _(micro-framework)_
     - ``pip3 install sqlalchemy`` --> SQL toolkit
     - ``pip3 install oauth2client`` --> OAuth 2.0 client library
     - ``pip3 install psycopg2`` --> PostgreSQL database adapter
+    - ``sudo apt-get install libapache2-mod-wsgi-py3`` --> Apache module (WSGI)
 
+### Setup Database
 
-
-3. Setup Database:
+1. Setup Database:
     - _Skip this step and delete [``restaurantmenuwithusers.db``](/restaurantmenuwithusers.db) file if you want to use my database setup_
     - Run [``database_setup.py``](/database_setup.py) using Python to setup Database
     - Run [``initiating_db_with_users.py``](/initiating_db_with_users.py) using Python to populate the database with values.
         - _You can modify this file with your own values._
-4. Run [``flask_app.py``](/flask_app.py) using Python, the app will be up and running on [localhost:8000](http://localhost:8000) address. Press **Ctrl**+**C** a few times to stop the server.
-5. To be able to use Google and Facebook OAuth 2.0 Authentication, App ID and Client Secret are needed from each of the providers.
+2. Run [``flask_app.py``](/flask_app.py) using Python, the app will be up and running on [localhost:8000](http://localhost:8000) address. Press **Ctrl**+**C** a few times to stop the server.
+3. To be able to use Google and Facebook OAuth 2.0 Authentication, App ID and Client Secret are needed from each of the providers.
     - For Google - Create App Credentials at [Google's Developers webpage](https://console.developers.google.com) and download the clients secret JSON file into the project. Rename it to ``client_secrets.json``.
         - A Mockup of the client secrets json file is already present with other credentials in it [``client_secrets.json``](/client_secrets.json). GO through it to setup credentials at google and replace it with your own ``client_secrets.json`` file.
     - For Facebook - Goto [Facebook's Developers webpage](https://developers.facebook.com/) and create AppCredentials. Copy the App ID and App Secret into the [``fb_client_secrets.json``](/fb_client_secrets.json) file.
-6. There are two type of JSON endpoints for restaurants.
+4. There are two type of JSON endpoints for restaurants.
     - [``/restaurants/json``](http://localhost:8000/restaurants/json) - for all restaurnts' _name_, _ID_ and _creater ID_
     - ``/restaurants/``_\<``Restaurant ID``>_``/json`` - for each restaruant's items
 
