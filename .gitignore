@@ -10,3 +10,6 @@ __pycache__/
 
 # temp files
 temp.json
+
+# log files
+*.log

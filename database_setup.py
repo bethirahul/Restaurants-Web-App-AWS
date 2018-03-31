@@ -21,8 +21,6 @@ import datetime
 import json
 
 # To get os variables
-# Used to append the url_for link with modified time as extension
-# This is to get dynamic loading of url_for while Flask renders templates
 import os
 
 

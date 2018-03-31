@@ -115,7 +115,8 @@ def override_url_for():
 
 
 def dated_url_for(endpoint, **values):
-    '''Appends static endpoints with last modified time - to make them dynamic'''
+    '''Appends static endpoints with last modified time - to make them
+    dynamic'''
     # Check if endpoint is static
     if endpoint == 'static':
         # Get file name from the values
@@ -381,7 +382,6 @@ def fbconnect():
         return response
 
     # Get the access_token (long lived) from the response
-    #token = json.loads(result.decode())['access_token']
     token = result_json['access_token']
     session['access_token'] = token
 
@@ -1017,11 +1017,3 @@ def getLocalID(email):
         return user.id
     except exc.DatabaseError:
         return None
-
-
-# Start server when this file is run
-#if __name__ == '__main__':
-#    app.secret_key = 'very_secure_password'
-#    app.debug = True
-#    app.run(host='0.0.0.0', port=5000)
-#    app.run()
