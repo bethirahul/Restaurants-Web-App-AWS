@@ -34,12 +34,18 @@ It also has a JSON endpoint to provide restaurant details and item details.
 ### Setup system
 
 1. Get an [**AWS** account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start) (free tier) and create a [**LightSail**](https://lightsail.aws.amazon.com/ls/webapp/home/instances) instance with '_OS only (Ubuntu 16.04 LTS)_' option.
-2. Create a _Static IP address_ from ``AWS LightSail console -> Networking`` and attach it to the instance created.
-3. Open the instance from the AWS console (opens in browser) or by SSH into the instance by using username ``ubuntu``, instance's IP address and SSH private key location .
-    - _AWS default SSH key_ can be obtained from ``AWS LightSail console -> Account -> SSH Keys``.
-4. Create a **new user** and add ``sudo`` permission by adding an entry in ``/etc/sudoers.d/<new_file>``
-    - Create a new **SSH key pair** using ``ssh-keygen`` on the local machine.
+2. Create a _Static IP address_ from [AWS LightSail console] -> [Networking] and attach it to the instance created.
+3. Open the instance from the [AWS LightSail console] (opens in browser) or by SSH into the instance by using username ``ubuntu``, instance's IP address and SSH private key location.
+    - _AWS default SSH key_ can be obtained from [AWS LightSail console] -> [Account] -> [SSH Keys].
+4. Create a **new user** and add ``sudo`` permission.
+    - New user: ``sudo useradd <new_user>``
+    - Add sudo permission by adding an entry in a new file at ``/etc/sudoers.d/<new_file>``
+        ```conf
+        <new_user> ALL=(ALL) NOPASSWD:ALL
+        ```
+    - Create a new **SSH key pair** running ``ssh-keygen`` on the local machine.
     - Copy the SSH public key into new user's ``/home/<new_user>/.ssh/authorized_keys`` file in the AWS instance.
+        - Create the directory and file if they don't exist.
     - Change file permissions and ownership on the ``authorized_keys`` file and ``.ssh`` directory.
         ```bash
         sudo chmod 600 /home/<new_user>/.ssh/authorized_keys
@@ -49,7 +55,7 @@ It also has a JSON endpoint to provide restaurant details and item details.
         sudo chgrp <new_user> /home/<new_user>/.ssh/authorized_keys
         sudo chgrp <new_user> /home/<new_user>/.ssh
         ```
-    - Now this user on AWS instance can be logged in from this local machine using the username, IP address of the instance and the SSH private key on the local machine.
+    - Now, this user on AWS instance can log in from this local machine using the username, IP address of the instance and the SSH private key on the local machine.
         ```bash
         ssh <new_user>@<ip_address-or-server_address> -p <ssh_port> -i /private/key/location/with/file
         ```
@@ -80,7 +86,7 @@ It also has a JSON endpoint to provide restaurant details and item details.
         - ``sudo ufw allow www`` or ``sudo ufw allow http``
 10. Configure the local time-zone to UTC.
     - Run ``sudo dpkg-reconfigure tzdata``
-    - Then select ``None of the above -> UTC``
+    - Then select [None of the above] -> [UTC]
 
 ### Install softwares
 
