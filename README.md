@@ -12,26 +12,26 @@ It also has a JSON endpoint to provide restaurant details and item details.
 
 ## Built using
 
-1. [**Python** 3.5.2](https://www.python.org/) -- [**Flask** 0.12.2](http://flask.pocoo.org/) micro-framework, [SQLAlchemy 1.2.6](https://www.sqlalchemy.org/), [OAuth2client 4.1.2](https://pypi.python.org/pypi/oauth2client)
-2. [**Apache** 2.4.18](https://httpd.apache.org/) web server
-    - [``mod_wsgi`` 4.3.0](https://modwsgi.readthedocs.io/en/develop/) package
-3. [**PostgreSQL** 9.5.12](https://www.postgresql.org/) database server
-4. [Ubuntu 16.04 LTS](http://releases.ubuntu.com/16.04/) linux operating system
+1. [**Python**](https://www.python.org/) v3.5.2 - [**Flask**](http://flask.pocoo.org/) v0.12.2 (_micro-framework_), [SQLAlchemy](https://www.sqlalchemy.org/) v1.2.6, [OAuth2client](https://pypi.python.org/pypi/oauth2client) v4.1.2
+2. [**Apache**](https://httpd.apache.org/) v2.4.18 (_web server_)
+    - [mod_wsgi](https://modwsgi.readthedocs.io/en/develop/) v4.3.0 (_package_)
+3. [**PostgreSQL**](https://www.postgresql.org/) v9.5.12 (_database server_)
+4. [Ubuntu 16.04 LTS](http://releases.ubuntu.com/16.04/) (_linux operating system_)
     - [Git](https://git-scm.com/), [OpenSSH](https://www.openssh.com/) with key pairs, [Curl](https://curl.haxx.se/docs/manpage.html)
-5. [**Amazon Web Services** (AWS)](https://aws.amazon.com/) - [LightSail](https://aws.amazon.com/lightsail/) virtual machine instance on AWS Cloud
-    - _Configuration_: 1 virtual CPU, 512 MB RAM, 20GB SSD
-    - Same as AWS - EC2 instance, but with lower configuration, cheaper pricing and free tier.
+5. [**Amazon Web Services**](https://aws.amazon.com/) (AWS) - [LightSail](https://aws.amazon.com/lightsail/) (_virtual machine_) instance on AWS Cloud
+    - Lower configuration than a AWS EC2 _t2-micro_ instance (512MB RAM), cheaper pricing and free tier.
     - Hosted at [**52.40.101.245**.xip.io](http://52.40.101.245.xip.io)
-6. [**Google**](https://developers.google.com/identity/protocols/OAuth2), [**Facebook**](https://developers.facebook.com/docs/facebook-login) - [OAuth 2.0 authentication](https://oauth.net/2/) systems
+6. [**Google**](https://developers.google.com/identity/protocols/OAuth2), [**Facebook**](https://developers.facebook.com/docs/facebook-login) - [OAuth 2.0](https://oauth.net/2/) authentication systems
 7. HTML, CSS
 8. Other tools used while building:
-    - [**Vagrant** 2.0.3](https://www.vagrantup.com/) virtual machine - identical to AWS instance
+    - [**Vagrant**](https://www.vagrantup.com/) v2.0.3 (_virtual machine_) - identical to AWS instance
     - Windows 10 PC, Visual Studio Code
     - [Git-bash](https://git-scm.com/) to access AWS LightSail instance, [GitHub](https://github.com/)
     
 
 ## Instructions to run
 
+1. 
 1. Install [**Python 3.5**](https://www.python.org/downloads/), and then ``pip install``:
     - ``flask``
     - ``sqlalchemy``
