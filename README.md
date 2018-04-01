@@ -28,7 +28,7 @@ It also has a JSON endpoint to provide restaurant details and item details.
 6. [**Google**](https://developers.google.com/identity/protocols/OAuth2), [**Facebook**](https://developers.facebook.com/docs/facebook-login) - [OAuth 2.0](https://oauth.net/2/) authentication systems
 7. HTML, CSS
 8. Xip.io DNS
-8. Other tools used while developing (not needed to build the app again):
+9. Other tools used while developing (not needed to build the app again):
     - [**Vagrant**](https://www.vagrantup.com/) v2.0.3 virtual machine - identical to AWS instance
         - Used to test and debug the app in the local machine, before setting the app on AWS Cloud.
     - Windows 10 PC, Visual Studio Code
