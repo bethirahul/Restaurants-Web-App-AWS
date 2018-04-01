@@ -65,8 +65,11 @@ It also has a JSON endpoint to provide restaurant details and item details.
 5. Close and login with the new user.
 6. **Update** the system.
     - ``sudo apt-get update`` --> Check for updates
-    - ``sudo apt-get upgrade`` --> Update system
+    - ``sudo apt-get upgrade`` --> Updates system
+    - If you still have packages to upgrade, use
+        - ``sudo apt-get dist-upgrade`` --> Updates dependencies too
 7. Modify **SSH configuration** file ``/etc/ssh/sshd_config``
+    - Disable _Remote-root-login_ by changing ``PermitRootLogin`` to ``no``
     - Disable _Login-by-password_ by changing ``PasswordAuthentication`` to ``no``
     - Change **SSH port**
         - First Allow AWS LightSail instance's Firewall to allow/deny the desired ports [AWS LightSail console] -> [Instance] -> [Networking] -> [Firewall].
@@ -180,7 +183,7 @@ This project is the extension of the Restaurant's web app. Hosting the app onto 
 
 1. A **AWS LightSail** virtual machine (VM) instance is setup with **Ubuntu 16.04 LTS** linux operating system.
 2. A **Static IP** is created for that instance.
-3. **Domain name** of the server is created using Xio.io, a free Public DNS server.
+3. **Domain name** of the server is created using Xip.io, a free Public DNS server.
     - Any domain name can be created from an IP address by appending the IP address with ``.xip.io``
     - THe DNS server just redirects back the IP address.
 4. A **new user** with is created and sudo permissions are assigned.
@@ -203,6 +206,26 @@ Address to my hosted app: http://52.40.101.245.xip.io/restaurants_catalogue
 
 **Screenshots** of all the pages are located in [Screenshots](/Screenshots) folder.
 
-### My LinkedIn profile
+## References
 
-https://www.linkedin.com/in/rahulbethi
+1. [Udacity - Full Stack nano degree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd004) course
+2. [Udemy - AWS Developer Associate](https://www.udemy.com/aws-certified-developer-associate/learn/v4/overview) course
+3. [Google OAuth2](https://developers.google.com/identity/protocols/OAuth2) docs
+4. [Facebook OAuth2](https://developers.facebook.com/docs/facebook-login/web) docs
+5. [SSH](https://man.openbsd.org/sshd_config) configuration
+6. [SSH Keygen](https://man.openbsd.org/ssh-keygen.1) docs
+7. [UFW](https://help.ubuntu.com/community/UFW) configuration
+8. [Apache](https://httpd.apache.org/docs/2.4/) configuration
+9. [Apache mod_wsgi](http://modwsgi.readthedocs.io/en/develop/user-guides/quick-configuration-guide.html) configuration
+10. [PostgreSQL](https://www.postgresql.org/docs/9.5/static/index.html) docs
+12. [``sudo``](https://linux.die.net/man/8/sudo) docs
+13. [``apt-get``](https://linux.die.net/man/8/apt-get) docs
+14. [``chmod``](https://linux.die.net/man/1/chmod) docs
+
+## Contact me
+
+Linkdin: https://www.linkedin.com/in/rahulbethi
+
+Email: rahulbethi@hotmail.com
+
+Phone: +1 (361) 336-7752
