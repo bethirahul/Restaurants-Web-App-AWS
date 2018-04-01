@@ -24,16 +24,15 @@ It also has a JSON endpoint to provide restaurant details and item details.
     - [Git](https://git-scm.com/), [OpenSSH](https://www.openssh.com/) with key pairs, [Curl](https://curl.haxx.se/docs/manpage.html)
 5. [**Amazon Web Services**](https://aws.amazon.com/) (AWS) - [LightSail](https://aws.amazon.com/lightsail/) virtual machine instance on AWS Cloud
     - Lower configuration than a AWS EC2 _t2-micro_ instance (512MB RAM), cheaper pricing and free tier.
-    - Hosted at [**52.40.101.245**.xip.io](http://52.40.101.245.xip.io)
 6. [**Google**](https://developers.google.com/identity/protocols/OAuth2), [**Facebook**](https://developers.facebook.com/docs/facebook-login) - [OAuth 2.0](https://oauth.net/2/) authentication systems
 7. HTML, CSS
-8. Xip.io DNS
-9. Other tools used while developing (not needed to build the app again):
+8. Other tools used while developing (not needed to build the app again):
     - [**Vagrant**](https://www.vagrantup.com/) v2.0.3 virtual machine - identical to AWS instance
         - Used to test and debug the app in the local machine, before setting the app on AWS Cloud.
     - Windows 10 PC, Visual Studio Code
     - [Git-bash](https://git-scm.com/) to access AWS LightSail instance, [GitHub](https://github.com/)
     - [**Finger**](https://www.lifewire.com/finger-linux-command-4093522), to get more information on a user.
+    - **Xip.io** DNS
 
 ## Instructions to run
 
@@ -185,7 +184,8 @@ This project is the extension of the Restaurant's web app. Hosting the app onto 
 2. A **Static IP** is created for that instance.
 3. **Domain name** of the server is created using Xip.io, a free Public DNS server.
     - Any domain name can be created from an IP address by appending the IP address with ``.xip.io``
-    - THe DNS server just redirects back the IP address.
+    - The DNS server just redirects back the IP address.
+    - _I bought my own domain name and assigned my server IP address to it._
 4. A **new user** with is created and sudo permissions are assigned.
 5. A new pair of **SSH Keys** are setup and are used between the host machine and the new user in the AWS VM. Login with password is disabled on the VM.
 6. **SSH port** is changed as a precaution to stop attacks on the default port.
@@ -200,7 +200,7 @@ This project is the extension of the Restaurant's web app. Hosting the app onto 
 15. **Google and Facebook app secrets** are taken and stored in their respective json files. These details are used by the app to login a user using **OAuth2.0** authentication.
 16. Apache web server is configured by adding the app's apache configuration into the server's configuration folder. Then the server is updated with the new configuration file. Restart the server to take effect.
 
-This makes the app run at ``http://``_``<server_ip_address>``_``.xip.io/restaurants_catalogue/``
+This makes the app run at ``http://``_``<your_domain_name>``_``/restaurants_catalogue/``
 
 Address to my hosted app: http://rahulbethi.com/restaurants_catalogue
 
