@@ -32,7 +32,7 @@ It also has a JSON endpoint to provide restaurant details and item details.
     - Windows 10 PC, Visual Studio Code
     - [Git-bash](https://git-scm.com/) to access AWS LightSail instance, [GitHub](https://github.com/)
     - [**Finger**](https://www.lifewire.com/finger-linux-command-4093522), to get more information on a user.
-    - **Xip.io** DNS
+    - [**Xip.io**](xip.io) DNS
 
 ## Instructions to run
 
@@ -200,7 +200,8 @@ This project is the extension of the Restaurant's web app. Hosting the app onto 
 15. **Google and Facebook app secrets** are taken and stored in their respective json files. These details are used by the app to login a user using **OAuth2.0** authentication.
 16. Apache web server is configured by adding the app's apache configuration into the server's configuration folder. Then the server is updated with the new configuration file. Restart the server to take effect.
 
-This makes the app run at ``http://``_``<your_domain_name>``_``/restaurants_catalogue/``
+This makes the app run at ``http://``_``<your_domain_name>``_.
+Or if you don't have a domain name, just use Xip.io DNS, ``http://``_``<server_ip_address>``_``.xip.io``
 
 Address to my hosted app: [http://**rahulbethi**.com/**restaurants_catalogue**](http://rahulbethi.com/restaurants_catalogue)
 
