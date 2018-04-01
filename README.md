@@ -1,6 +1,6 @@
 # My Restaurants' Catalogue (App) - Amazon Web Services
 
-Application link: [http://**rahulbethi**.com/**restaurants_catalogue**](http://rahulbethi.com/restaurants_catalogue)
+Application link: [https://**rahulbethi**.com/**restaurants_catalogue**](https://rahulbethi.com/restaurants_catalogue)
 
 This project is the extension of my existing project - [**My Restaurants' Catalogue**](https://github.com/bethirahul/Restaurant-Web-app).
 Built by _**Rahul Bethi**_.
@@ -203,7 +203,7 @@ This project is the extension of the Restaurant's web app. Hosting the app onto 
 This makes the app run at ``http://``_``<your_domain_name>``_.
 Or if you don't have a domain name, just use Xip.io DNS, ``http://``_``<server_ip_address>``_``.xip.io``
 
-Address to my hosted app: [http://**rahulbethi**.com/**restaurants_catalogue**](http://rahulbethi.com/restaurants_catalogue)
+Address to my hosted app: [https://**rahulbethi**.com/**restaurants_catalogue**](https://rahulbethi.com/restaurants_catalogue)
 
 **Screenshots** of all the pages are located in [Screenshots](/Screenshots) folder.
 
