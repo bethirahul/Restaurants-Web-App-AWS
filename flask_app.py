@@ -76,7 +76,7 @@ DBSession = sessionmaker(bind=engine)
 db_session = DBSession()
 
 # Home Page
-root_path = '/restaurants_catalogue/'
+root_path = '/'
 login_path = root_path + 'login/'
 g_login_success_path = root_path + 'gconnect'
 fb_login_success_path = root_path + 'fbconnect'
